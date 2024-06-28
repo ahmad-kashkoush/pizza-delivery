@@ -1,6 +1,6 @@
 import CartOverview from "@/features/cart/CartOverview";
-import Header from "@/ui/Header";
-import Loader from "@/ui/Loader";
+import SearchOrders from "@/features/order/SearchOrders";
+import { Header, Loader } from "@/ui";
 
 import { Link, Outlet, useNavigation } from "react-router-dom";
 
@@ -13,7 +13,8 @@ function AppLayout() {
       {isLoading && <Loader />}
       <Header />
       <main>
-        <h1>app content</h1>
+        {/* <h1>app content</h1> */}
+      <SearchOrders />
         <Outlet />
         <Link to="/menu">Menu</Link>
       </main>
