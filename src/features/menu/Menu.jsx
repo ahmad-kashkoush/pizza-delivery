@@ -1,10 +1,17 @@
+import MenuItem from "@/features/menu/MenuItem";
 import { getMenu } from "@/services/apiRestaurant";
 import { useLoaderData } from "react-router-dom";
 
 function Menu() {
-  const data=useLoaderData();
-  console.log(data);
-  return <h1>Menu</h1>;
+  const menu = useLoaderData();
+
+  return (
+    <ul>
+      {menu.map((item) => (
+        <MenuItem pizza={item} key={item.id} />
+      ))}
+    </ul>
+  );
 }
 // 1. Create loader
 // 2. Provide loader: Connect loader to route
