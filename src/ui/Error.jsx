@@ -7,7 +7,7 @@ function Error() {
   return (
     <div>
       <h1>Something went wrong 😢</h1>
-      <p>%{currentError.data || currentError.error.message}%</p>
+      <p>%{currentError.data || currentError?.error?.message||currentError.mesasge|| currentError.toLocaleString( )}%</p>
       <button onClick={() => navigate(-1)}>&larr; Go back</button>
     </div>
   );
