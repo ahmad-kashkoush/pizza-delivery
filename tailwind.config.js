@@ -15,7 +15,11 @@ export default {
       ...colors
     },
 
-    extend: {},
+    extend: {
+      height: {
+        screen: '100dvh'
+      }
+    },
   },
   plugins: ["prettier-plugin-tailwindcss"],
 }
