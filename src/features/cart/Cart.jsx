@@ -42,12 +42,12 @@ function Cart() {
         ))}
       </ul>
       <div className="mt-8 space-x-4">
-        <Button className="px-4 py-2 md:px-6 md:py-3" to="/order/new">
+        <Button type="primary" to="/order/new">
           Order pizzas
         </Button>
-        <button className="rounded-full border-2 px-3 py-1 text-sm font-semibold uppercase text-stone-500 transition-colors duration-300 hover:bg-stone-300 hover:text-stone-800 md:px-5 md:py-3">
+        <Button type='secondary'>
           Clear cart
-        </button>
+        </Button>
       </div>
     </div>
   );

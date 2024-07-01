@@ -21,8 +21,8 @@ function CreateUser() {
       />
 
       {username !== '' && (
-        <div>
-          <Button classes="mt-6  px-4 py-3 md:px-5 md:py-4">
+        <div className="mt-6">
+          <Button type="primary">
             Start ordering
           </Button>
         </div>

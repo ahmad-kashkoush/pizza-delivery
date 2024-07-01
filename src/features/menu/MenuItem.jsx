@@ -16,7 +16,7 @@ function MenuItem({ pizza }) {
           {!soldOut ? <p>{formatCurrency(unitPrice)}</p> : <p>Sold out</p>}
         </div>
       </div>
-      <Button classes="justify-self-end rounded-2xl px-4 py-2 text-xs">
+      <Button type="small" className="justify-self-end">
         Add to cart
       </Button>
     </li>
