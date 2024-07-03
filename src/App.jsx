@@ -1,7 +1,8 @@
 import Cart from '@/features/cart/Cart';
 import Menu, { loader as menuLoader } from '@/features/menu/Menu';
 import { CreateOrder, Order } from '@/features/order';
-import { action as createOrderAction } from '@/features/order/CreateOrder';
+
+import { action as createOrderAction, loader as createOrderLoader } from '@/features/order/CreateOrder';
 import { loader as orderLoader } from '@/features/order/Order';
 import { AppLayout, Error, Home } from '@/ui';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       {
         path: '/order/new',
         element: <CreateOrder />,
+        loader: createOrderLoader,
         action: createOrderAction,
       },
       {
