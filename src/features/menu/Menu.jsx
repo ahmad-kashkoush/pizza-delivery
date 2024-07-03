@@ -1,10 +1,9 @@
-import MenuItem from "@/features/menu/MenuItem";
-import { getMenu } from "@/services/apiRestaurant";
-import { useLoaderData } from "react-router-dom";
+import MenuItem from '@/features/menu/MenuItem';
+import { getMenu } from '@/services/apiRestaurant';
+import { useLoaderData } from 'react-router-dom';
 
 function Menu() {
   const menu = useLoaderData();
-
   return (
     <ul>
       {menu.map((item) => (
