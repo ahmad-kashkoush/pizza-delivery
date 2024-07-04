@@ -1,12 +1,12 @@
 import EmptyCart from '@/features/cart/EmptyCart';
 import { clearCart, getCart, getTotalPrice } from '@/features/cart/cartSlice';
-import { createUser } from '@/features/user/userSlice';
+import { createUser, fetchAddress } from '@/features/user/userSlice';
 import { createOrder } from '@/services/apiRestaurant';
 import store from '@/store';
 import Button from '@/ui/Button';
 import { formatCurrency } from '@/utils/helpers';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, redirect, useActionData, useNavigation } from 'react-router-dom';
 
 // https://uibakery.io/regex-library/phone-number
@@ -18,12 +18,21 @@ const isValidPhone = (str) =>
 function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
   const cart = useSelector(getCart);
-  const state = useSelector((store) => store.userReducer);
+  const {
+    username,
+    phone,
+    address,
+    priority,
+    status: addressStatus,
+    error: addressError,
+    position,
+  } = useSelector((store) => store.userReducer);
   const totalPrice = useSelector(getTotalPrice);
   const priorityPrice = withPriority * (totalPrice + totalPrice * 0.2);
-
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
+  const isLoadingAddress = addressStatus === 'loading';
   // returns data coming from action
   const formErros = useActionData();
   if (!cart.length) return <EmptyCart />;
@@ -41,7 +50,7 @@ function CreateOrder() {
               className="input w-full grow"
               type="text"
               name="customer"
-              defaultValue={state.username}
+              defaultValue={username}
               required
             />
           </div>
@@ -54,11 +63,13 @@ function CreateOrder() {
               className="input w-full grow"
               type="tel"
               name="phone"
-              defaultValue={state.phone}
+              defaultValue={phone}
               required
             />
             {formErros?.phone ? (
-              <p className="mt-2 px-4 text-red-500">{formErros.phone}</p>
+              <p className="mt-2 bg-red-100 px-4 py-2 text-red-500">
+                {formErros.phone}
+              </p>
             ) : (
               ''
             )}
@@ -67,14 +78,36 @@ function CreateOrder() {
 
         <div className="order-field mb-5">
           <label className="sm:basis-40">Address</label>
-          <div className="grow">
+          <div className="relative grow">
             <input
               className="input w-full grow"
               type="text"
               name="address"
-              defaultValue={state.address}
+              disabled={isLoadingAddress}
+              defaultValue={address}
               required
             />
+            {!position.latitude && !position.longitude && (
+              <span className="absolute right-[3px] top-[5px] md:right-0 md:top-[0]">
+                <Button
+                  type="small"
+                  disabled={isLoadingAddress}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(fetchAddress());
+                  }}
+                >
+                  Get Address
+                </Button>
+              </span>
+            )}
+            {addressError ? (
+              <p className="mt-2 bg-red-100 px-4 py-2 text-red-500">
+                {addressError}
+              </p>
+            ) : (
+              ''
+            )}
           </div>
         </div>
 
@@ -82,7 +115,7 @@ function CreateOrder() {
           <input
             type="checkbox"
             name="priority"
-            defaultChecked={state.priority || false}
+            defaultChecked={priority || false}
             className="h-6 w-6 accent-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-50 focus:ring-offset-2"
             id="priority"
             value={withPriority}
@@ -110,6 +143,17 @@ function CreateOrder() {
           name="cart"
           defaultValue={JSON.stringify(cart)}
         />
+        <input
+          type="text"
+          hidden={true}
+          className="!hidden"
+          name="position"
+          defaultValue={
+            position.longitude
+              ? `${position.longitude}, ${position.latitude}`
+              : ''
+          }
+        />
       </Form>
     </div>
   );
@@ -123,6 +167,7 @@ export async function action({ request }) {
   const order = {
     ...data,
     priority: data.priority === 'true',
+    position: data.position,
     cart: data.cart ? JSON.parse(data.cart) : [],
   };
   const errors = {};
@@ -144,6 +189,10 @@ export async function action({ request }) {
   return redirect(`/order/${res.id}`);
 }
 
+export function loader() {
+  // store.dispatch(fetchAddress());
+  return null;
+}
 export default CreateOrder;
 
 /* 
