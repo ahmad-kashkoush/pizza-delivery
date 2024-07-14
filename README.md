@@ -1,8 +1,40 @@
-# React + Vite
+<img
+ src="public/pizza-img.png"
+ style="
+ display:block;
+ width:fit-content;
+ margin-left:auto;
+ margin-right:auto;
+ "
+  alt="pizza img"/>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## About the project
 
-Currently, two official plugins are available:
+a simple pizza ordering website
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<details>
+
+<summary>
+
+### Feature requirements
+
+</summary>
+
+1. User can pay pizza pricd on site
+2. User location can be added automatically using GeoLocation
+3. add multiple pizzas
+</details>
+
+### Built with
+
+- React JS
+- Tailwind
+- react-router
+
+## Demo
+
+## What I've Learnt
+
+1. state management using Redux
+2. Reading and Mutating data using react-router loaders and actions
+3. Feature based file structure
